@@ -27,9 +27,11 @@ export class ContractBuilder extends TransactionBuilder {
   private _contractName: string;
   private _functionName: string;
   private _functionArgs: ClarityValue[];
+  private _anchorMode: number
 
   constructor(_coinConfig: Readonly<CoinConfig>) {
     super(_coinConfig);
+    this._anchorMode = 3
   }
 
   initBuilder(tx: Transaction): void {
@@ -62,6 +64,7 @@ export class ContractBuilder extends TransactionBuilder {
       contractName: this._contractName,
       functionName: this._functionName,
       functionArgs: this._functionArgs,
+      anchorMode: this._anchorMode,
       network: this._network,
       fee: new BigNum(this._fee.fee),
       nonce: new BigNum(this._nonce),
@@ -134,7 +137,7 @@ export class ContractBuilder extends TransactionBuilder {
     return this;
   }
 
-  functionArgs(args: ClarityValueJson[] | ClarityValue[]): this {
+  functionArgs(args: any): this {
     this._functionArgs = args.map((arg) => {
       if (arg.val) {
         return this.parseCv(arg);
